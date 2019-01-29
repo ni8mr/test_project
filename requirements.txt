@@ -1,2 +1,4 @@
 Django==2.1.5
+django-widget-tweaks==1.4.3
+django-widgets-improved==1.5.0
 pytz==2018.9
