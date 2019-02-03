@@ -3,6 +3,7 @@ from django.urls import reverse, resolve
 from django.test import TestCase
 from .views import home, board_topics, new_topic
 from .models import Board, Topic, Post
+from.forms import NewTopicForm
 
 
 # Create your tests here.
@@ -97,6 +98,12 @@ class NewTopicTests(TestCase):
         response = self.client.post(url, {})
         self.assertEquals(response.status_code, 200)
 
+    def test_form_exists(self):
+        url = reverse('new_topic', kwargs={'pk': 1})
+        response = self.client.get(url)
+        form = response.context.get('form')
+        self.assertIsInstance(form, NewTopicForm)
+
     def test_new_topic_invalid_post_data_empty_field_values(self):
         """ Invalid post data should show the form again with validation errors """
         url = reverse('new_topic', kwargs={'pk': 1})
@@ -105,6 +112,7 @@ class NewTopicTests(TestCase):
             'message': ''
         }
         response = self.client.post(url, data)
+        form = response.context.get('form')
         self.assertEquals(response.status_code, 200)
-        self.assertFalse(Topic.objects.exists())
-        self.assertFalse(Post.objects.exists())
+        self.assertTrue(form.errors)
+

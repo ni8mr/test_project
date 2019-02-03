@@ -1,0 +1,30 @@
+{% load widget_tweaks %}
+
+{% for field in form %}
+    <div class="form-group">
+        {{ field.label_tag }}
+
+        {% if form.is_bound %}
+            <!--This segment will be active at the time of posting data-->
+            {% if field.errors %}
+                {% render_field field class="form-control is-invalid" %}
+                {% for error in field.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            {% else %}
+                {% render_field field class="form-control is-valid" %}
+            {% endif %}
+        {% else %}
+            <!--This segment will be active when the page is initially loaded-->
+            {% render_field field class="form-control" %}
+        {% endif %}
+
+        {% if field.help_text %}
+            <small class="form-text text-muted">
+                {{ field.help_text }}
+            </small>
+        {% endif %}
+    </div>
+{% endfor %}
