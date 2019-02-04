@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # Third party apps
     'widget_tweaks',
     # Application apps
+    'accounts',
     'boards'
 ]
 
